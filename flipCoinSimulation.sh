@@ -13,8 +13,8 @@ function combination_flip_coin()
 	read -p "Do you want to play if yes press 1 otherwise press any key" start
 	while [ $start -eq 1 ]
 	do
-		echo "perform simulator operation to create a Singlet and Doublet Combination"
-		echo -e "1.Singlet \n2.Doublet"
+		echo "perform simulator operation to create a Singlet,Doublet and Triplet Combination"
+		echo -e "1.Singlet_of_coin \n2.Doublet_of_coin \n3.Triplet_of_coin"
 		read -p "Enter your choice" choice
 		case $choice in
 			1)
@@ -22,7 +22,11 @@ function combination_flip_coin()
 				FlipCoin
 				;;
 			2)
-				fCoin=2;
+				fCoin=2
+				FlipCoin
+				;;
+			3)
+				fCoin=3
 				FlipCoin
 				;;
 			*)
@@ -64,7 +68,6 @@ function  FlipCoin()
 #calculating percentage of head and tail#
 function Calculation()
 {
-	#key=""
 	for flipkey in ${!Simulation[@]}
 	do
 		Simulation[$flipkey]=$( echo "scale=2; ${Simulation[$flipkey]} * 100 / $Number" | bc )
