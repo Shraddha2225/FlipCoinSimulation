@@ -1,44 +1,81 @@
-#!/bin/bash  
+
+#!/bin/bash  -x
 echo "Welcome To Flip Coin Simulation"
 
-#declare dictionary
-declare -A Display
-
 #read count of from user
-read -p "Enter how many times user want to flip coin" num
-echo "num= "$num
+read -p "Enter how many times user want to flip coin" Number
+echo "Number="$Number
 
-head=0
-tail=0
-
-#function to Display head  or tail#
-function  DisplayHeadTail()
+#switch case#
+function combination_flip_coin()
 {
-	#loop to calculate  how many time flip a coin
-	for((i=1; i<$num; i++))
+	#local start=0
+	read -p "Do you want to play if yes press 1 otherwise press any key" start
+	while [ $start -eq 1 ]
 	do
-		FlipCoin=$((RANDOM%2))
-		if [[ $FlipCoin -eq 0 ]]
-		then 
-		Display[flip$i]="HEAD"
-		((head++))
-		else
-		Display[flip$i]="TAIL"
-		((tail++))
-		fi
+		echo "perform simulator operation to create a Singlet and Doublet Combination"
+		echo -e "1.Singlet \n2.Doublet"
+		read -p "Enter your choice" choice
+		case $choice in
+			1)
+				fCoin=1
+				FlipCoin
+				;;
+			2)
+				fCoin=2;
+				FlipCoin
+				;;
+			*)
+				echo "please enter a valid number"
+				;; 
+		esac
+		read -p "Do you want to continue again" start
 	done
 }
 
-DisplayHeadTail
-echo "display head or tail : ${Display[@]}"
-echo "head=$head"
-echo "tail=$tail"
-
+#funct to Display head  or tail#
+function  FlipCoin()
+{	
+	flipkey=""
+	#declare dictionary
+	declare -A Simulation
+	#loop to calculate  how many time flip a coin
+	for((i=1; i<=$Number; i++))
+	do
+		for((j=1; j<=$fCoin; j++))
+		do
+			if [[ $((RANDOM%2)) -eq 0 ]]
+			then 
+				flipkey+=H
+			else
+				flipkey+=T
+			fi
+		done
+		
+		Simulation[$flipkey]=$((${Simulation[$flipkey]}+1))
+		flipkey=""
+	done
+	echo  "key of flip coins : ${!Simulation[@]}"
+	echo "counting of flip coins : ${Simulation[@]}"
+	
+	Calculation
+}
 
 #calculating percentage of head and tail#
-percentage_of_head=$( echo "scale=2; $head * 100 / $num" | bc )
-percentage_of_tail=$(echo "scale=2; $tail * 100 / $num" | bc )
+function Calculation()
+{
+	#key=""
+	for flipkey in ${!Simulation[@]}
+	do
+		Simulation[$flipkey]=$( echo "scale=2; ${Simulation[$flipkey]} * 100 / $Number" | bc )
+	done
+	echo "Key percentage of flip coins : ${!Simulation[@]}"
+	echo "percentage of flip coins : ${Simulation[@]}"
+	
+}
 
-#printing  result here#
-echo "Percentage of head = $percentage_of_head"
-echo "Percentage of Tail = $percentage_of_tail"
+#switch case function
+combination_flip_coin
+
+
+
