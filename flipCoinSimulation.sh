@@ -74,11 +74,18 @@ function Calculation()
 	done
 	echo "Key percentage of flip coins : ${!Simulation[@]}"
 	echo "percentage of flip coins : ${Simulation[@]}"
-	
+	sort_FlipCoinDict
+}
+
+#function for sorting
+function sort_FlipCoinDict()
+{
+	echo "Winner is:"
+	for i in "${!Simulation[@]}"
+	do
+	echo -e $i ${Simulation[$i]}
+	done | sort -k2 -rn | head -1
 }
 
 #switch case function
 combination_flip_coin
-
-
-
